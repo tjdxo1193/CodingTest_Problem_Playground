@@ -5,7 +5,7 @@ public class ErrorNumber {
         int num = 30103;
         int num2 = 99999;
         int num3 = 99992;
-        System.out.println(errorNumber(num));
+        System.out.println(errorNumber(1000));
     }
     public static int errorNumber(int num){
         String strNumDefault = String.valueOf(num);
@@ -22,22 +22,21 @@ public class ErrorNumber {
                 break;
             }
         }
-
+        char firstNum = strNumDefault.charAt(0);
         // min 값
         for(int k = 0; k < strNumDefault.length(); k++){
             char currentCharNum = strNumDefault.charAt(k);
             if(currentCharNum == '0'){
                 continue;
             }else{
-                if(k > 0){
-                    minNum = minNum.replaceAll(String.valueOf(currentCharNum), "0");
-                    break;
-                }else{
-                    if(currentCharNum != '1'){
-                        minNum = minNum.replaceAll(String.valueOf(currentCharNum), "1");
-                        break;
+                if(firstNum == '1'){
+                    if(currentCharNum == '1'){
+                        continue;
                     }
                 }
+
+                minNum = minNum.replaceAll(String.valueOf(currentCharNum), "0");
+                break;
             }
         }
         System.out.println("maxNum : " + maxNum);
