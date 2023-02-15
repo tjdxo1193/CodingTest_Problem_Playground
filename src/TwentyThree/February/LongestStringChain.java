@@ -14,16 +14,18 @@ public class LongestStringChain {
         Map<String, Integer> memo = new HashMap<>();
 
         // 글자수 작은것 부터 내림차순 정렬 (주어진 조건을 Comparator 비교하면서 정렬)
+        // 왜 정렬하는가? -> 글자수 작은 거부터 큰거까지 경우의수를 차례차례 메모하며 해나가야 하기 때문, 그렇지않으면 DP 문제가 아님.
         Arrays.sort(words, (a, b) -> a.length() - b.length());
         int totalLen = 1;
 
-        // 단어들 하나씩 반복문 돌리면서
+        // 정렬된 단어들 하나씩 반복문 돌리면서
         for (String word : words) {
             // 첫 체인 길이 1
             int tempLen = 1;
 
-            // 단어의 글자 수 많큼 반복문 돌리면서 한글자 빼는 모든 경우 보기
+            // 한 단어씩 단어의 글자 수 많큼 반복문 돌리면서 한글자 빼는 모든 경우 보기
             for (int i = 0; i < word.length(); i++) {
+                // stringbuffer 보다 builder로 하는 이유 ?
                 StringBuilder sb = new StringBuilder(word);
                 sb.deleteCharAt(i);
 
@@ -36,7 +38,7 @@ public class LongestStringChain {
                     totalLen = Math.max(totalLen, tempLen);
                 }
             }
-            // 단어와 체인길이를 메모해둠
+            // 단어와 체인길이를 *모두 메모해둠
             memo.put(word, tempLen);
         }
 
