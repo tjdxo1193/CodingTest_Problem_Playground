@@ -10,6 +10,8 @@ public class LongestStringChain {
     }
 
     public static int longestStrChain(String[] words, int num){
+        // 스트링 체인 점화식
+        // f(n) = f(n-1) + 1
         // 메모리제이션, MAP < 단어 , 체인길이 >
         Map<String, Integer> memo = new HashMap<>();
 
@@ -38,7 +40,7 @@ public class LongestStringChain {
                     totalLen = Math.max(totalLen, tempLen);
                 }
             }
-            // 단어와 체인길이를 *모두 메모해둠
+            // 단어와 체인길이를 *모두 메모해둠 (word, 점화식 결과값 f(n))
             memo.put(word, tempLen);
         }
 
