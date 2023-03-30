@@ -1,5 +1,10 @@
 package TwentyThree.March;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class RepeatBinaryConversion {
     /*
         문제 설명
@@ -47,5 +52,14 @@ public class RepeatBinaryConversion {
             4번의 이진 변환을 하는 동안 1개의 0을 제거했으므로, [4,1]을 return 해야 합니다.
      */
 
-    
+    public static void main(String[] args) {
+        System.out.println();
+    }
+
+    public int[] solution(String s) {
+        int[] answer = {0, 0};
+
+
+        return answer;
+    }
 }

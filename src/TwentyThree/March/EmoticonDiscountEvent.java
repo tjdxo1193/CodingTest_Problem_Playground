@@ -190,8 +190,8 @@ public class EmoticonDiscountEvent {
                 for (int 임티_순번 = 0; 임티_순번 < 선택완료된_이모티콘_목록.size(); 임티_순번++) {
                     // 편의상 객체 선언 한줄로 줄일 수 있음... 하지만 가독성 ..
                     이모티콘 현이모티콘_객체 = 선택완료된_이모티콘_목록.get(임티_순번);
-                    System.out.println("tp: "+ 현이모티콘_객체.가격);
-                    System.out.println("td: "+ 현이모티콘_객체.할인율);
+                    System.out.println("가격: "+ 현이모티콘_객체.가격);
+                    System.out.println("할인율: "+ 현이모티콘_객체.할인율);
                     if(현이모티콘_객체.할인율 >= 현사용자_희망_할인율)
                         현사용자_지불한_금액합 += 현이모티콘_객체.가격;
                 }
