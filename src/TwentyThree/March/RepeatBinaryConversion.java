@@ -1,10 +1,5 @@
 package TwentyThree.March;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class RepeatBinaryConversion {
     /*
         문제 설명
@@ -53,12 +48,28 @@ public class RepeatBinaryConversion {
      */
 
     public static void main(String[] args) {
-        System.out.println();
+
+        int[] result = solution("10101011");
+        System.out.println("변환횟수 : " + result[0] + "/ 제거개수 : " + result[1]);
     }
 
-    public int[] solution(String s) {
+    public static int[] solution(String s) {
         int[] answer = {0, 0};
 
+        String nextS = s;
+        int removeCnt = 0;
+        int changeCnt = 0;
+        String removeZeroStr;
+
+        while (!nextS.equals("1")){
+            removeZeroStr = nextS.replace("0", "");
+            removeCnt += nextS.length() - (removeZeroStr).length();
+            nextS = Integer.toBinaryString(removeZeroStr.length());
+            changeCnt++;
+        }
+
+        answer[0] = changeCnt;
+        answer[1] = removeCnt;
 
         return answer;
     }
