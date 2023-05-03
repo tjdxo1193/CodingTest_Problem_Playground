@@ -1,5 +1,9 @@
 package TwentyThree.April;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.stream.Collectors;
+
 public class SkillCheck_01 {
     /*
     대문자와 소문자가 섞여있는 문자열 s가 주어집니다. s에 'p'의 개수와 'y'의 개수를 비교해 같으면 True, 다르면 False를 return 하는 solution를 완성하세요. 'p', 'y' 모두 하나도 없는 경우는 항상 True를 리턴합니다. 단, 개수를 비교할 때 대문자와 소문자는 구별하지 않습니다.
@@ -33,7 +37,7 @@ s	answer
 
 
     public static void main(String[] args) {
-        System.out.println(solution2("12"));
+        System.out.println(solution3("121235", 2));
 //        System.out.println(solution("PyccwuyPpY"));
     }
 
@@ -59,5 +63,29 @@ s	answer
 
 
         return isEven ? s.substring(fmidNum-1, fmidNum+1) : s.substring(fmidNum-1, fmidNum) ;
+    }
+
+    static String solution3(String number, int k) {
+        String answer = "";
+        String[] array = number.split("");
+        Arrays.sort(array, Comparator.reverseOrder());
+
+        return Arrays.stream(Arrays.copyOfRange(array, 0, array.length - k)).collect(Collectors.joining());
+    }
+
+    static String solution4(String number, int k) {
+        String answer = "";
+        String[] array = number.split("");
+        String[] arrayRe = array;
+        int point = 0;
+        Arrays.sort(arrayRe);
+        for(int i = 0; i < number.length(); i ++){
+            if(!arrayRe[point].equals(number.substring(i, i+1)) && point == k){
+                answer.concat(array[i]);
+            }else{
+                point++;
+            }
+        }
+        return Arrays.stream(Arrays.copyOfRange(array, 0, array.length - k)).collect(Collectors.joining());
     }
 }

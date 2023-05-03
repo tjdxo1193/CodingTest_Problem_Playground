@@ -1,5 +1,7 @@
 package TwentyThree.April;
 
+import java.util.Arrays;
+
 public class CourierDeliveryCollection {
 /*
 당신은 일렬로 나열된 n개의 집에 택배를 배달하려 합니다.
@@ -41,6 +43,18 @@ pickups[i]는 i+1번째 집에서 수거할 빈 재활용 택배 상자의 개�
     public long solution(int cap, int n, int[] deliveries, int[] pickups) {
         long answer = -1;
         return answer;
+    }
+
+    class Solution {
+        public double solution(int[] numbers) {
+            double answer = 0;
+            int temp = 0;
+            for(int i = 0; i < numbers.length; i++){
+                temp += numbers[i];
+            }
+            answer = (double) temp / numbers.length;
+            return answer;
+        }
     }
 
 }
