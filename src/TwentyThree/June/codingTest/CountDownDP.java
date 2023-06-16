@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class CountDownDP {
 
     public static void main(String[] args) {
-        CountDown cd = new CountDown();
+        CountDownDP cd = new CountDownDP();
         System.out.println(Arrays.toString(cd.solution(58)));
         // assert [1,0]
         // 1 - 20 까지의 점수

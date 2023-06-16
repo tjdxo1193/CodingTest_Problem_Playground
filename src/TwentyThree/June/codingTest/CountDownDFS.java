@@ -5,31 +5,9 @@ import java.util.HashMap;
 public class CountDownDFS {
 
     public static void main(String[] args) {
-        CountDown cd = new CountDown();
+        CountDownDFS cd = new CountDownDFS();
         System.out.println(Arrays.toString(cd.solution(58)));
-        // assert [1,0]
-        // 1 - 20 까지의 점수
-        // 주어진 점수를 0점으로 만드는 것
-        // 우선순위
-        // 1. 최소한의 다트를 사용하는 것.
-        // 2. 싱글, 불을 최대한 많이 맞추는 것.
-        // return [ 다트 수 , 싱글 + 볼] (개수)
     }
-
-    // DP/DFS 고려해볼수 있음.
-    // 50
-    // single, bul, double, triple
-    // x 1 , x 2 , x 3
-    // 1-20 까지 [1, 1]
-    // 21, 22, 24, 26, 27, 28, 30, 32, 33, 34, 36, 38, 39, 40, 42, 45, 48, 51, 54, 57, 60
-    // 23(2,2), 25(2,2), 29(2,2), 31(2,2), 35(2,2), 37(2,2),
-    // 41(2, 1), 43(2, 1), 44(2, 1), 46(2, 1), 47(2, 1), 49(2, 1),
-    // 52(2,2), 53(2,2), 55(2,2), 56(2,2), 58(2,2), 59(2,2) = 18개의 경우
-    // 50보다 크면 불하나 싱글하나, 50보다 작고 40보다 큰것,  40보다 작은것 싱글 두개.
-
-    // 61 ~ 70 - 싱글 , 불 2, 2
-    // 71 ~ 80 = 싱글, 트리플 2, 1
-    // 81 ~  = 60, 21 ..
 
     private HashMap<Integer, BasicResult> BASIC_SCORE_LIST = new HashMap<>() ;
     private final static int DART_COUNT_ORDER = 0;
