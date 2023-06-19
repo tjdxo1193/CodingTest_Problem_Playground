@@ -1,9 +1,6 @@
 package TwentyThree.June.codingTest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class LifeBoat {
     /*
@@ -37,27 +34,40 @@ public class LifeBoat {
     }
 
     public int solution(int[] people, int limit) {
-        // 구명 보트의 무게 limit , 사람들의 무게 people[i]
-        // 사람들의 무게를 내림차순으로 정렬해서 limit에 맞추어 제거하며 구한다.
-        Integer[] peopleToInteger = Arrays.stream(people).boxed().toArray(Integer[]::new);
-        Arrays.sort(peopleToInteger, Collections.reverseOrder());
-
-        List<Integer> boat = new ArrayList<>();
+        int answer = 0;
+        Arrays.sort(people);
         int startPoint = 0;
-        int endPoint = people.length-1;
-        int count = 0;
+        int endPoint = people.length - 1;
+        int sum = 0;
 
-        while (startPoint <= endPoint){
-            // 부분문제의 최적에 해 : 가장 몸무게가 큰 친구를 태운 보트가, 가장 작은 몸무게의 친구를 태우는 것.
-            boat.add(people[startPoint++]);
-            if (limit - boat.get(count) >= people[endPoint]) {
-                boat.set(count, boat.get(count) + people[endPoint]);
-                endPoint--;
-            }else {
-                count++;
+        while(startPoint<=endPoint) {
+            sum = people[startPoint] + people[endPoint];
+
+            if (startPoint != endPoint-- && sum <= limit) {
+                startPoint++;
             }
-        }
 
-        return boat.size();
+            answer++;
+        }
+        return answer;
+    }
+
+    public int solution_deq(int[] people, int limit) {
+        List<Integer> list = new ArrayList<>();
+        for(int x : people) list.add(x);
+        Collections.sort(list);
+        // 사이즈를 늘릴때 오버헤드가 발생하여 크기를 지정해주는게 좋다. 지금은 귀찮아서 씀.
+        ArrayDeque<Integer> deque = new ArrayDeque<>(list);
+
+        int answer = 0;
+        int temp = 0;
+        while(!deque.isEmpty()) {
+            temp = deque.pollLast();
+            if (!deque.isEmpty() && temp + deque.peekFirst() <= limit) {
+                deque.pollFirst();
+            }
+            answer++;
+        }
+        return answer;
     }
 }
