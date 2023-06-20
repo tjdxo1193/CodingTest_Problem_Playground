@@ -1,5 +1,8 @@
 package TwentyThree.June.codingTest;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class FoodFighter {
     /*
         푸드 파이트 대회
@@ -32,11 +35,28 @@ public class FoodFighter {
     두 선수는 1번 음식 3개, 3번 음식 1개를 먹게 되므로 음식의 배치는 "111303111"입니다.
      */
     public static void main(String[] args) {
-
+        FoodFighter foodFighter = new FoodFighter();
+        System.out.println(foodFighter.solution(new int[]{1, 3, 4, 6}));
     }
 
     public String solution(int[] food) {
-        String answer = "";
-        return answer;
+        Deque<Integer> deque = new ArrayDeque<>();
+        deque.addFirst(0);
+        for (int i = food.length-1; i > 0; i--) {
+            if(food[i] > 1){
+                if(food[i]%2 != 0){
+                    food[i] -= 1;
+                }
+                for (int j = 1; j < food[i]; j+=2) {
+                    deque.addLast(i);
+                    deque.addFirst(i);
+                }
+            }
+        }
+        StringBuilder answer = new StringBuilder();
+        for (Integer integer : deque) {
+            answer.append(String.valueOf(integer));
+        }
+        return answer.toString();
     }
 }
