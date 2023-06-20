@@ -86,7 +86,7 @@ public class RotateParenthesis {
             }
 
             if (!stack.isEmpty()) {
-
+                //TODO 이번엔 맵써서 해보기
             }else {
                 return false;
             }
