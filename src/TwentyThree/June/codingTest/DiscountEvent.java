@@ -1,5 +1,8 @@
 package TwentyThree.June.codingTest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DiscountEvent {
     /*
     문제 설명
@@ -18,6 +21,47 @@ want와 discount의 원소들은 알파벳 소문자로 이루어진 문자열�
 1 ≤ want의 원소의 길이, discount의 원소의 길이 ≤ 12
      */
     public static void main(String[] args) {
+        DiscountEvent event = new DiscountEvent();
+        String[] wants = {"banana", "apple", "rice", "pork", "pot"};
+        int[] numbers = {3, 2, 2, 2, 1};
+        String[] discounts = {"chicken", "apple", "apple", "banana", "rice", "apple", "pork", "banana", "pork", "rice", "pot", "banana", "apple", "banana"};
+        System.out.println(event.solution(wants, numbers, discounts));
+    }
 
+    public int solution(String[] want, int[] number, String[] discount) {
+        int answer = 0;
+        Map<String, Integer> discountMap = new HashMap<>();
+
+        for (int i = 0; i < discount.length; i++) {
+            // 지난날 할인 삭제
+            if(i >= 10) {
+                discountMap.put(discount[i - 10], discountMap.get(discount[i - 10]) - 1);
+            }
+
+            // 계속 하나씩 추가
+            if (discountMap.containsKey(discount[i])) {
+                discountMap.put(discount[i], discountMap.get(discount[i])+ 1);
+            } else{
+                discountMap.put(discount[i], 1);
+            }
+
+            boolean flag = false;
+            for (int k = 0; k < want.length; k++) {
+                if (discountMap.containsKey(want[k])) {
+                    if (number[k] <= discountMap.get(want[k])) {
+                        flag = true;
+                        continue;
+                    }
+                }
+
+                flag = false;
+                break;
+            }
+
+            if (flag == true) {
+                answer++;
+            }
+        }
+        return answer;
     }
 }
