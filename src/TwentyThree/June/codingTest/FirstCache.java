@@ -27,12 +27,12 @@ public class FirstCache {
      */
 
     public static void main(String[] args) {
-
+        FirstCache firstCache = new FirstCache();
+        System.out.println(firstCache.solution(3, new String[]{"Jeju", "Pangyo", "Seoul", "NewYork", "LA", "Jeju", "Pangyo", "Seoul", "NewYork", "LA"}));
     }
     private final static int CACHE_HIT = 1;
     private final static int CACHE_MISS = 5;
     public int solution(int cacheSize, String[] cities) {
-        // 큐문제인거같은데
         int answer = 0;
         LinkedList<String> linkedList = new LinkedList<>();
 
@@ -41,18 +41,18 @@ public class FirstCache {
         }
 
         for (int i = 0; i < cities.length; i++) {
-            if (!linkedList.isEmpty() && linkedList.contains(cities[i])) {
+            String target = cities[i].toLowerCase();
+            if (!linkedList.isEmpty() && linkedList.contains(target)) {
                 answer += CACHE_HIT;
-                linkedList.remove(cities[i]);
-                linkedList.add(cities[i]);
+                linkedList.remove(target);
+                linkedList.addFirst(target);
                 continue;
             }
-
-            if(linkedList.size() < cacheSize){
-                linkedList.add(cities[i]);
-                answer += CACHE_MISS;
+            linkedList.addFirst(target);
+            if (linkedList.size() > cacheSize) {
+                linkedList.removeLast();
             }
-
+            answer += CACHE_MISS;
         }
 
         return answer;
