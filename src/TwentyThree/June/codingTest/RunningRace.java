@@ -1,5 +1,7 @@
 package TwentyThree.June.codingTest;
 
+import java.util.*;
+
 public class RunningRace {
     /*
 문제 설명
@@ -20,11 +22,42 @@ callings는 players의 원소들로만 이루어져 있습니다.
      */
 
     public static void main(String[] args) {
-
+        RunningRace runningRace = new RunningRace();
+        String[] players = {"mumu", "soe", "poe", "kai", "mine"};
+        String[] callings = {"kai", "kai", "mine", "mine"};
+        System.out.println(Arrays.toString(runningRace.solution(players, callings)));
     }
 
     public String[] solution(String[] players, String[] callings) {
-        String[] answer = {};
+        Map<String, Integer> rank = initialRank(players);
+        for(String calledName: callings) {
+            int calledRank = rank.get(calledName);
+            changeRank(calledRank, calledName, players, rank);
+        }
+
+
+        String[] answer = new String[players.length];
+        for(Map.Entry<String, Integer> entry: rank.entrySet()) {
+            answer[entry.getValue()] = entry.getKey();
+        }
         return answer;
+    }
+
+    // (이름, 등수) map 초기화
+    private Map<String, Integer> initialRank(String[] players) {
+        Map<String, Integer> rank = new HashMap<>();
+        for(int idx=0; idx<players.length; idx++) {
+            rank.put(players[idx], idx);
+        }
+        return rank;
+    }
+
+    // 등수 바꾸기
+    private void changeRank(int calledRank, String calledName, String[] players, Map<String, Integer> rank) {
+        String front = players[calledRank-1];
+        players[calledRank-1] = calledName;
+        players[calledRank] = front;
+        rank.put(calledName, calledRank-1);
+        rank.put(front, calledRank);
     }
 }
