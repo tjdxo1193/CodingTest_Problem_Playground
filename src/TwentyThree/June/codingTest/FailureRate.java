@@ -1,6 +1,6 @@
 package TwentyThree.June.codingTest;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class FailureRate {
     /*
@@ -62,32 +62,29 @@ N	stages	result
 
     public int[] solution(int N, int[] stages) {
         int[] answer = new int[N];
-        double[] failureRate = new double[N+1];
-        int[] dp = new int[N+1]; // 나누기 위한 배열
-
+        int[] failureRate = new int[N+2];
+        int[] clearUserInStages = new int[N+1]; // 나누기 위한 배열
+        Map<Integer, Double> failureRateByStagesMap = new HashMap<>();
         for (int j = 0; j < stages.length; j++) {
-            failureRate[stages[j]-1]++;
+            failureRate[stages[j]]++;
         }
 
-        dp[N] = (int) failureRate[N];
-        for (int i = N-1; i >= 0; i--) {
-            dp[i] = (int) failureRate[i] + dp[i+1];
+        clearUserInStages[N] = failureRate[N] + failureRate[N+1];
+        for (int i = N-1; i >= 1; i--) {
+            clearUserInStages[i] = (int) failureRate[i] + clearUserInStages[i+1];
+        }
 
-            if (failureRate[i] == 0) {
-                failureRate[i] = 0;
+        for (int i = 1; i < clearUserInStages.length; i++) {
+            if (failureRate[i] == 0 || clearUserInStages[i] == 0) {
+                failureRateByStagesMap.put(i, 0.0);
             }else{
-                failureRate[i] = failureRate[i] / (double) dp[i];
+                failureRateByStagesMap.put(i, (double)failureRate[i]/clearUserInStages[i]);
             }
         }
 
-        double[] sortedCopyFailureRate =  failureRate.clone();
-        Arrays.sort(sortedCopyFailureRate);
-
-        for (int i = 0; i < N; i++) {
-
-        }
-
-        return answer;
+        List<Integer> list = new ArrayList<>(failureRateByStagesMap.keySet());
+        Collections.sort(list, ((o1, o2) -> Double.compare(failureRateByStagesMap.get(o2), failureRateByStagesMap.get(o1))));
+        return list.stream().mapToInt(Integer::intValue).toArray();
     }
 
 }
