@@ -1,6 +1,4 @@
-package TwentyThree.June.codingTest;
-
-import java.util.Arrays;
+package TwentyThree.July;
 
 public class TwoPasswords {
     /*
