@@ -64,6 +64,7 @@ new_id에 나타날 수 있는 특수문자는 -_.~!@#$%^&*()=+[{]}:?,<>/ 로 �
 
     public String solution(String new_id) {
         String answer = "";
+
         return answer;
     }
 }
