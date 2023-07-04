@@ -1,5 +1,8 @@
 package TwentyThree.June.codingTest;
 
+import java.util.Arrays;
+import java.util.Stack;
+
 public class DartGame {
 
     /*
@@ -21,14 +24,61 @@ Single(S), Double(D), Triple(T)은 점수마다 하나씩 존재한다.
 
 
     public static void main(String[] args) {
-
+        DartGame dartGame = new DartGame();
+        System.out.println(dartGame.solution("1D2S0T"));
     }
 
     private static final String SINGLE = "S";
     private static final String DOUBLE = "D";
     private static final String TRIPLE = "T";
+    private static final String STAR_AWARD = "*";
+    private static final String ALAS = "#";
     public int solution(String dartResult) {
         int answer = 0;
+        Stack<Integer> stack = new Stack<>();
+        String[] strArray = dartResult.split("");
+        Integer temp1 = 0;
+        Integer temp2 = 0;
+
+        for (int i = 0; i < strArray.length ; i++) {
+            // 1이 이미 들어간 상태
+            if (strArray[i].equals("0") && stack.size() > 0 && stack.peek() == 1) {
+                stack.pop();
+                stack.push(10);
+                continue;
+            }
+            if (strArray[i].equals(SINGLE)) {
+                continue;
+            }
+            if (strArray[i].equals(DOUBLE)) {
+                stack.push(stack.peek() * stack.pop());
+                continue;
+            }
+            if (strArray[i].equals(TRIPLE)) {
+                stack.push(stack.peek()*stack.peek()*stack.pop());
+                continue;
+            }
+            if (strArray[i].equals(STAR_AWARD)) {
+                temp2 = stack.pop()*2; // 쉬프트 연산 해도딤
+                if(!stack.isEmpty()){
+                    temp1 = stack.pop()*2;
+                    stack.push(temp1);
+                }
+                stack.push(temp2);
+                continue;
+            }
+
+            if (strArray[i].equals(ALAS)) {
+                stack.push(stack.pop() * -1);
+                continue;
+            }
+
+            stack.push(Integer.valueOf(strArray[i]));
+        }
+
+        while (stack.size() != 0){
+            answer += stack.pop();
+        }
 
         return answer;
     }
