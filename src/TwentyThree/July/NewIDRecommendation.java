@@ -59,12 +59,33 @@ new_id에 나타날 수 있는 특수문자는 -_.~!@#$%^&*()=+[{]}:?,<>/ 로 �
 
      */
     public static void main(String[] args) {
-
+        NewIDRecommendation newIDRecommendation = new NewIDRecommendation();
+        System.out.println(newIDRecommendation.solution("...!@BaT#*..y.abcdefghijklm"));
     }
 
     public String solution(String new_id) {
         String answer = "";
 
+        // 1
+        answer = new_id.toLowerCase();
+        // 2
+        answer = answer.replaceAll("[^0-9a-z-_.]", "");
+        // 3
+        answer = answer.replaceAll("\\.{2,}", ".");
+        // 4
+        answer = answer.replaceAll("^[.]|[.]$", "");
+        // 5
+        answer = answer.equals("") ? "a" : answer;
+        // 6
+        answer = answer.length() >= 16 ? answer.substring(0, 15) : answer;
+        answer = answer.replaceAll("[.]$", "");
+        // 7
+        char temp = answer.charAt(answer.length() - 1);
+        if (answer.length() <= 2) {
+            while (answer.length() < 3) {
+                answer += temp;
+            }
+        }
         return answer;
     }
 }

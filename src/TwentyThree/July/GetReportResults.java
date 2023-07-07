@@ -1,5 +1,7 @@
 package TwentyThree.July;
 
+import java.util.*;
+
 public class GetReportResults {
     /*
 신고 결과 받기
@@ -54,11 +56,37 @@ id는 알파벳 소문자로만 이루어져 있습니다.
 return 하는 배열은 id_list에 담긴 id 순서대로 각 유저가 받은 결과 메일 수를 담으면 됩니다.
      */
     public static void main(String[] args) {
+        GetReportResults reportResults = new GetReportResults();
+        String[] id = {"muzi", "frodo", "apeach", "neo"};
+        String[] report = {"muzi frodo", "muzi frodo", "apeach frodo", "frodo neo", "muzi neo", "apeach muzi"};
+
+        System.out.println(Arrays.toString(reportResults.solution(id, report, 1)));
 
     }
 
     public int[] solution(String[] id_list, String[] report, int k) {
-        int[] answer = {};
+        int[] answer = new int[id_list.length];
+        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Integer> cnt = new HashMap<>();
+        String[] temp = new String[2];
+        for (int i = 0; i < report.length; i++) {
+            temp = report[i].split(" ");
+            map.put(temp[1], map.getOrDefault(temp[1], ",").replace(","+temp[0]+",", ",") + temp[0] + ",");
+        }
+
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String value = entry.getValue();
+            String[] reportUserList = value.replaceAll("^,", "").split(",");
+            if (reportUserList.length >= k) {
+                for (int i = 0; i < reportUserList.length; i++) {
+                    cnt.put(reportUserList[i], cnt.getOrDefault(reportUserList[i], 0) + 1);
+                }
+            }
+        }
+        // 신고 횟수 카운팅
+        for (int j = 0; j < answer.length; j++) {
+            answer[j] = cnt.getOrDefault(id_list[j], 0);
+        }
         return answer;
     }
 }
