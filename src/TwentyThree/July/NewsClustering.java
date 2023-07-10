@@ -1,5 +1,7 @@
 package TwentyThree.July;
 
+import java.util.HashMap;
+import java.util.Map;
 public class NewsClustering {
 
     /*
@@ -35,11 +37,81 @@ public class NewsClustering {
      */
 
     public static void main(String[] args) {
-
+        NewsClustering newsClustering = new NewsClustering();
+        System.out.println(newsClustering.solution("E=M*C^2", "e=m*c^2"));
     }
 
     public int solution(String str1, String str2) {
         int answer = 0;
+        int union = 0;
+        int intersection = 0;
+        int strSize1 = 0;
+        int strSize2 = 0;
+
+        str1 = str1.toLowerCase();
+        str2 = str2.toLowerCase();
+        Map<String, Integer> strMap1 = new HashMap<>();
+        Map<String, Integer> strMap2 = new HashMap<>();
+        String temp;
+        char temp1;
+        char temp2;
+        int removeWord = 0;
+
+        // 각 집합을 만들고 -> 영문자만 집합원소에 포함. 65-122
+        for (int i = 0; i < str1.length() - 1; i++) {
+            temp1 = str1.charAt(i);
+            temp2 = str1.charAt(i+1);
+            temp = String.valueOf(temp1);
+            temp += temp2;
+            if (temp1 > 122 || temp1 < 65 || temp1 == 95) {
+                removeWord++;
+                continue;
+            }
+
+            if (temp2 > 122 || temp2 < 65 || temp2 == 95) {
+                removeWord++;
+                continue;
+            }
+
+            strMap1.put(temp, strMap1.getOrDefault(temp, 0)+1);
+            strSize1++;
+        }
+        System.out.println("STR2:");
+
+        for (int i = 0; i < str2.length() - 1; i++) {
+            temp1 = str2.charAt(i);
+            temp2 = str2.charAt(i+1);
+            temp = String.valueOf(temp1);
+            temp += temp2;
+
+            if (temp1 > 122 || temp1 < 65 || temp1 == 95) {
+                removeWord++;
+                continue;
+            }
+
+            if (temp2 > 122 || temp2 < 65 || temp2 == 95) {
+                removeWord++;
+                continue;
+            }
+
+            strMap2.put(temp, strMap2.getOrDefault(temp, 0)+1);
+            strSize2++;
+        }
+
+        // 교집합
+        for (Map.Entry<String, Integer> entryMap : strMap1.entrySet()) {
+            intersection += Math.min(strMap2.getOrDefault(entryMap.getKey(), 0), entryMap.getValue());
+        }
+
+        union = strSize1 + strSize2 - intersection;
+
+        if (union <= 0) {
+            if (intersection == 0) {
+                return 65536;
+            }
+        }
+
+        answer = intersection * 65536 / union;
         return answer;
     }
 }
