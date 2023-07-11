@@ -39,21 +39,9 @@ dungeons의 각 행은 각 던전의 ["최소 필요 피로도", "소모 피로�
     }
 
     private static boolean[] VISITED;
+    private static Integer count = 0;
     private static Integer MAX_COUNT = 0;
     // 완전탐색 문제 , dfs, bfs 를 이용해서 푼다.
-
-    public class Dungeon {
-        // 최소 허용 피로도
-        private final Integer minReqFatigue;
-        // 소모 피로도
-        private final Integer consumFatigue;
-
-        public Dungeon (Integer minReqFatigue, Integer consumFatigue) {
-            this.minReqFatigue = minReqFatigue;
-            this.consumFatigue = consumFatigue;
-        }
-    }
-
 
     public int solution(int k, int[][] dungeons) {
         VISITED = new boolean[dungeons.length];
@@ -61,15 +49,17 @@ dungeons의 각 행은 각 던전의 ["최소 필요 피로도", "소모 피로�
         return MAX_COUNT;
     }
 
-    public void dfs(int k, int[][] dungeons, int deep) {
+    public void dfs(int k, int[][] dungeons, int depth) {
+
+        MAX_COUNT = Math.max(depth, MAX_COUNT);
         for (int i = 0; i < dungeons.length; i++) {
-            if (!VISITED[i] && k >= dungeons[i][0]) {
+            if (!VISITED[i]) {
+                System.out.println("count : "+ ++count + " depth : " + depth);
                 VISITED[i] = true;
-                dfs(k - dungeons[i][1], dungeons, deep + 1);
+                dfs(k - dungeons[i][1], dungeons, depth + 1);
                 VISITED[i] = false;
             }
         }
-        MAX_COUNT = Math.max(deep, MAX_COUNT);
     }
 
 
