@@ -1,8 +1,5 @@
 package TwentyThree.July;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Fatigue {
 
     /*
@@ -41,7 +38,7 @@ dungeons의 각 행은 각 던전의 ["최소 필요 피로도", "소모 피로�
         System.out.println(fatigue.solution(80,  new int[][] {{80,20},{50,40},{30,10}}));
     }
 
-
+    private static boolean[] VISITED;
     private static Integer MAX_COUNT = 0;
     // 완전탐색 문제 , dfs, bfs 를 이용해서 푼다.
 
@@ -59,34 +56,22 @@ dungeons의 각 행은 각 던전의 ["최소 필요 피로도", "소모 피로�
 
 
     public int solution(int k, int[][] dungeons) {
-        List<Dungeon> dungeonList = new ArrayList<>();
-        for (int i = 0; i < dungeons.length; i++) {
-            dungeonList.add(new Dungeon(dungeons[i][0], dungeons[i][1]));
-        }
-
-        dfs(k, dungeonList, 0);
-
+        VISITED = new boolean[dungeons.length];
+        dfs(k, dungeons, 0);
         return MAX_COUNT;
     }
 
-    public void dfs(int k, List<Dungeon> dungeonList, int deep) {
-        List<Dungeon> newDungeonList = new ArrayList<>(dungeonList);
-        if (dungeonList.size() == deep || dungeonList.isEmpty() || k <= 0) {
-            MAX_COUNT = Math.max(MAX_COUNT, deep);
-            return;
-        }
-
-        for (int i = 0; i < dungeonList.size(); i++) {
-            Dungeon dungeon = dungeonList.get(i);
-            if (k >= dungeon.minReqFatigue) {
-                // 던전 들어감. 지금 들어가지 못하면 어쩌피 못들어감.
-                newDungeonList.remove(i);
-                dfs(k - dungeon.consumFatigue, newDungeonList, deep + 1);
+    public void dfs(int k, int[][] dungeons, int deep) {
+        for (int i = 0; i < dungeons.length; i++) {
+            if (!VISITED[i] && k >= dungeons[i][0]) {
+                VISITED[i] = true;
+                dfs(k - dungeons[i][1], dungeons, deep + 1);
+                VISITED[i] = false;
             }
-
-            newDungeonList.remove(i);
-            dfs(k, newDungeonList, deep);
         }
-
+        MAX_COUNT = Math.max(deep, MAX_COUNT);
     }
+
+
+    
 }
