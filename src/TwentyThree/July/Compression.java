@@ -1,6 +1,7 @@
 package TwentyThree.July;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Compression {
 
@@ -77,7 +78,7 @@ OT		34
 
         // KAKAO
         // KA , AK, KAO
-        // 한단어씩
+        // 한단어씩 KA KAO
 
         // 일단 하나씩 지나가면서 사전에 있는지 찾기
         // 있으면,
@@ -108,5 +109,23 @@ OT		34
         return answer;
     }
 
+
+    //큐랑 맵을 활용한 풀이
+    public int[] solution2(String msg) {
+        Queue<String> queue = Arrays.stream(msg.split("")).collect(Collectors.toCollection(LinkedList::new));
+        Map<String, Integer> map = new HashMap<>();
+
+        for (int i = 65; i <= 90; i++){
+            map.put(String.valueOf((char)i), i-64);
+        }
+
+        for (int i = 0; i < msg.length(); i++) {
+            for (int k = 0; k > map.size(); k++) {
+
+            }
+        }
+
+        return new int[]{};
+    }
 
 }
