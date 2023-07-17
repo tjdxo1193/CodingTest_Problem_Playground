@@ -1,5 +1,8 @@
 package TwentyThree.July;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class VowelDictionary {
 
     /*
@@ -20,10 +23,45 @@ public class VowelDictionary {
         System.out.println(dictionary.solution("AAAAE"));
     }
 
+
+
     public int solution(String word) {
         int answer = 0;
+        Character[] alp = {'A', 'E', 'I', 'O', 'U'};
+        int[] f = {1, 782, 1563, 2344, 3125};
+        int[] s = {1, 157, 313, 469, 625};
+        int[] t = {1, 32, 63, 94, 125};
+        int[] fo = {1, 7, 13, 19, 25};
+        int[] l = {1, 2, 3, 4, 5};
+        HashMap<Character, Integer> first = new HashMap<>();
+        HashMap<Character, Integer> second = new HashMap<>();
+        HashMap<Character, Integer> third = new HashMap<>();
+        HashMap<Character, Integer> fourth = new HashMap<>();
+        HashMap<Character, Integer> last = new HashMap<>();
+        for (int i = 0; i < 5; i++) {
+            first.put(alp[i], f[i]);
+            second.put(alp[i], s[i]);
+            third.put(alp[i], t[i]);
+            fourth.put(alp[i], fo[i]);
+            last.put(alp[i], l[i]);
+        }
+        // 자리수
 
-        
+        if (word.length() > 0) {
+            answer += first.get(word.charAt(0));
+        }
+        if (word.length() > 1) {
+            answer += second.get(word.charAt(1));
+        }
+        if (word.length() > 2) {
+            answer += third.get(word.charAt(2));
+        }
+        if (word.length() > 3) {
+            answer += fourth.get(word.charAt(3));
+        }
+        if (word.length() > 4) {
+            answer += last.get(word.charAt(4));
+        }
 
         return answer;
     }
