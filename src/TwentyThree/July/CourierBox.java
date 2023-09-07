@@ -1,5 +1,11 @@
 package TwentyThree.July;
 
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
 public class CourierBox {
     /*
     택배상자
@@ -19,11 +25,57 @@ order[i]는 기존의 컨테이너 벨트에 order[i]번째 상자를 i+1번째�
      */
 
     public static void main(String[] args) {
-
+        CourierBox courierBox = new CourierBox();
+        System.out.println(courierBox.solution(new int[]{5, 4, 3, 2, 1}));
     }
 
     public int solution(int[] order) {
         int answer = 0;
+
+        Queue<Integer> mainContainer = new LinkedList<>();
+        Stack<Integer> secondaryContainer = new Stack<Integer>();
+
+        for (int n = 1; n < order.length+1; n++) {
+            mainContainer.add(n);
+        }
+        System.out.println(Arrays.toString(order));
+        System.out.println(mainContainer);
+
+        // order[i] 을 꺼낸다.
+        // order[i] 가 mainContainer , secondaryContainer 해서 같은지 비교 같으면 다음 박스
+        // order[i] 달라서 mainContainer에 있으면 그 인덱스 만큼 pop -> pop한걸 secondaryContainer에 push
+        // mainContainer에 없으면 GameOver
+
+        for (int i = 0; i < order.length; i++) {
+            System.out.println("-------------" + order[i] + " 번 박스 이동 시작-----------------");
+            if(!mainContainer.isEmpty() && order[i] == mainContainer.peek()){
+                System.out.println("큐에서 " + mainContainer.poll());
+                answer++;
+                continue;
+            }
+
+            if (!secondaryContainer.isEmpty() && order[i] == secondaryContainer.peek()) {
+                System.out.println("스택에서 " + secondaryContainer.pop());
+                answer++;
+                continue;
+            }
+
+            if(mainContainer.contains(order[i])){
+                for (; !mainContainer.isEmpty();) {
+                    Integer peek = mainContainer.peek();
+                    if(mainContainer.peek() != order[i]){
+                        secondaryContainer.push(mainContainer.poll());
+                        System.out.println(secondaryContainer.peek()+"번 박스 세컨더리로 이동");
+                        continue;
+                    }
+                    break;
+                }
+                System.out.println(mainContainer.poll());
+                answer++;
+                continue;
+            }
+            break;
+        }
         return answer;
     }
 }
