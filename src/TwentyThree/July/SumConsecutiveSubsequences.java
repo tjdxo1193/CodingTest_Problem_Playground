@@ -1,7 +1,7 @@
 package TwentyThree.July;
 
-import java.util.HashMap;
-import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class SumConsecutiveSubsequences {
     /*
@@ -24,34 +24,31 @@ k는 항상 sequence의 부분 수열로 만들 수 있는 값입니다.
 
      */
 
-    class EqualsVO{
-        private String str;
-        private String st2;
-        Integer num;
-        int commNum;
-    }
     public static void main(String[] args) {
-        String a = null;
-        String b = null;
-        String a1 = "String";
-        String a2 = new String("String");
-
-        Integer t1 = 101;
-        Integer t2 = 101;
-
-//        System.out.println(a.equals(b));
-        System.out.println(a == b); // true
-        System.out.println(a1 == a2); // false
-        System.out.println(a1.equals(a2)); //true
-        System.out.println(t1.equals(t2)); // true
-        System.out.println(t1 == t2); //true
-        System.out.println(t1); //true
-        System.out.println(t2); //true
     }
 
     public int[] solution(int[] sequence, int k) {
-        int[] answer = {};
+        Queue<Integer> queue = new LinkedList<>();
+        int sum = 0;
+        for (int i = sequence.length - 1; i >= 0; i--) {
+            if(sum > k) {
+                sum -= queue.peek();
+                queue.remove();
+            }
+            sum += sequence[i];
+            queue.add(sequence[i]);
 
-        return answer;
+            if (sum == k)
+            {
+                if (i > 0 && sequence[i - 1] == queue.peek())
+                    while (i > 0 && sequence[i - 1] == queue.peek())
+                        i--;
+
+                return new int[]{ i, i + queue.size() - 1};
+            }
+
+        }
+
+        return new int[]{ -1, -1 };
     }
 }
