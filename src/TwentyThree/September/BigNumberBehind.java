@@ -1,5 +1,8 @@
 package TwentyThree.September;
 
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
 public class BigNumberBehind {
     /*
     뒤에 있는 큰 수 찾기
@@ -15,8 +18,30 @@ public class BigNumberBehind {
 
     }
 
-
     public int[] solution(int[] numbers) {
+        PriorityQueue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+
+        for (int index = 0; index < numbers.length; index++) {
+
+            int value = numbers[index];
+
+            // 현재 index보다 앞에 있는 index 중
+            // 현재 value보다 작은값을 가지는 index를 현재 value로 치환
+            while (!queue.isEmpty() && queue.peek()[1] < value)
+                numbers[queue.poll()[0]] = value;
+
+            queue.add(new int[] { index, value });
+        }
+
+        // 미처리 index에 -1 대입
+        while (!queue.isEmpty())
+            numbers[queue.poll()[0]] = -1;
+
+        return numbers;
+    }
+
+    // 시간초과
+    public int[] solution2(int[] numbers) {
         int[] answer = new int[numbers.length];
 
         for (int i = 0; i < numbers.length; i++) {
