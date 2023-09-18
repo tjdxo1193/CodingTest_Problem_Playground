@@ -2,6 +2,7 @@ package TwentyThree.September;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
+import java.util.Stack;
 
 public class BigNumberBehind {
     /*
@@ -18,26 +19,48 @@ public class BigNumberBehind {
 
     }
 
-    public int[] solution(int[] numbers) {
-        PriorityQueue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+    public int[] solution4(int[] numbers) {
+        int[] answer = new int[numbers.length];
 
-        for (int index = 0; index < numbers.length; index++) {
+        Stack<Integer> stack = new Stack<>();
 
-            int value = numbers[index];
+        stack.push(0);
 
-            // 현재 index보다 앞에 있는 index 중
-            // 현재 value보다 작은값을 가지는 index를 현재 value로 치환
-            while (!queue.isEmpty() && queue.peek()[1] < value)
-                numbers[queue.poll()[0]] = value;
+        for (int i = 1; i < numbers.length; i++) {
 
-            queue.add(new int[] { index, value });
+            while (!stack.isEmpty() && numbers[stack.peek()] < numbers[i]) {
+                answer[stack.pop()] = numbers[i];
+            }
+            stack.push(i);
         }
 
-        // 미처리 index에 -1 대입
-        while (!queue.isEmpty())
-            numbers[queue.poll()[0]] = -1;
+        while(!stack.isEmpty()){
+            answer[stack.pop()] = -1;
+        }
 
-        return numbers;
+        return answer;
+    }
+
+    public int[] solution(int[] numbers) {
+        int[] answer = new int[numbers.length];
+
+        Stack<Integer> stack = new Stack<>();
+
+        stack.push(0);
+
+        for (int i = 1; i < numbers.length; i++) {
+
+            while (!stack.isEmpty() && numbers[stack.peek()] < numbers[i]) {
+                answer[stack.pop()] = numbers[i];
+            }
+            stack.push(i);
+        }
+
+        while(!stack.isEmpty()){
+            answer[stack.pop()] = -1;
+        }
+
+        return answer;
     }
 
     // 시간초과
@@ -57,5 +80,29 @@ public class BigNumberBehind {
         }
 
         return answer;
+    }
+
+    // 우선순위큐
+    public int[] solution3(int[] numbers) {
+        PriorityQueue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+
+        for (int index = 0; index < numbers.length; index++) {
+
+            int value = numbers[index];
+
+            // 현재 index보다 앞에 있는 index 중
+            // 현재 value보다 작은값을 가지는 index를 현재 value로 치환
+            while (!queue.isEmpty() && queue.peek()[1] < value){
+                numbers[queue.poll()[0]] = value;
+            }
+
+            queue.add(new int[] { index, value });
+        }
+
+        // 미처리 index에 -1 대입
+        while (!queue.isEmpty())
+            numbers[queue.poll()[0]] = -1;
+
+        return numbers;
     }
 }
