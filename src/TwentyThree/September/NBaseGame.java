@@ -39,17 +39,27 @@ public class NBaseGame {
      */
 
     public static void main(String[] args) {
-
+        NBaseGame game = new NBaseGame();
+        System.out.println(game.solution(16, 16, 2, 1));
     }
 
     public String solution(int n, int t, int m, int p) {
-        String answer = "";
-
-        for (int i = 0; i < t; i++) {
-                
+        String answer;
+        StringBuilder result = new StringBuilder();
+        StringBuilder answerBuilder = new StringBuilder();
+        for (int i = 0; i < t * m; i++) {
+            answerBuilder.append(baseCul(n, i));
         }
+        answer = answerBuilder.toString();
 
-        return answer;
+        for (int l = 0, s = 0; s < t; s++, l = l + m) {
+            result.append(answer.substring(l + p-1, l + p));
+        }
+        return result.toString();
+    }
+
+    public String baseCul(int n, int k) {
+        return Integer.toString(k, n).toUpperCase();
     }
 
 }
