@@ -1,5 +1,6 @@
 package TwentyThree.September;
 
+import java.util.ArrayList;
 public class HowToLineUp {
 
     /*
@@ -25,11 +26,42 @@ public class HowToLineUp {
 
     public int[] solution(int n, long k) {
         int[] answer = new int[n];
+        ArrayList<Integer> arr = new ArrayList<>();
 
-        for (int i = 0; i < n; i++) {
-            answer[i] = (int)(k/n + 1);
+        for (int i = 0; i < n + 1; i++) {
+            arr.add(i);
+        }
+        
+        int 카운트 = 1;
+        long k대신 = k;
+
+        while (카운트 <= n) {
+
+            long 몫 = k대신 / factorial(n - 카운트);
+            long 나머지 = k대신 % factorial(n - 카운트);
+
+            if (나머지 != 0) {
+                answer[카운트 - 1] = arr.get(Long.valueOf(몫).intValue() + 1);
+                arr.remove(Long.valueOf(몫).intValue() + 1);
+                k대신 = 나머지;
+            } else {
+                answer[카운트 - 1] = arr.get(Long.valueOf(몫).intValue());
+                arr.remove(Long.valueOf(몫).intValue());
+                for (int i = 1; i < arr.size(); i++) {
+                    answer[카운트 - 1 + i] = arr.get(arr.size() - i);
+                }
+                break;
+            }
+
+            카운트++;
         }
 
         return answer;
+    }
+    static long factorial(int n){
+        if (n == 1 || n == 0) {
+            return 1;
+        }
+        return n * factorial(n - 1);
     }
 }
