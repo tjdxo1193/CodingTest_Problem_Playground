@@ -1,5 +1,8 @@
 package TwentyThree.September;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class LetterConvert {
     /*
     두 개의 단어 begin, target과 단어의 집합 words가 있습니다.
@@ -28,9 +31,53 @@ public class LetterConvert {
 
     public int solution(String begin, String target, String[] words) {
         int answer = 0;
-        // "hit"	"cog"	["hot", "dot", "dog", "lot", "log", "cog"]	4
+        boolean isExist = false;
+        for (int i = 0; i < words.length; i++) {
+            if (words[i].equals(target)) {
+                isExist = true;
+                break;
+            }
+        }
+        if (!isExist) {
+            return 0;
+        }
+        String next;
+        int cnt = 0;
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{-1, 0});
+        while (!queue.isEmpty() || (cnt > words.length) ) {
+            int[] box = queue.poll();
+            if(box[0] == -1){
+                next = begin;
+                cnt = 0;
+            }else {
+                next = words[box[0]];
+                cnt = box[1];
+            }
+
+            // 한글자만 틀린 단어가 뭐있는지 queue에 담기 [1] => count + 1
+            for (int k = 0; k < words.length; k++) {
+                int falseNum = 0;
+                for (int j = 0; j < words[0].length(); j++) {
+                    if(next.charAt(j) != words[k].charAt(j)) {
+                        falseNum = falseNum + 1;
+                        if(falseNum > 1){
+                            break;
+                        }
+                    }
+
+                }
+                if (falseNum == 1) {
+                    if (words[k].equals(target)) {
+                        return box[1] + 1;
+                    }
+                    queue.add(new int[]{k, box[1] + 1});
+                }
 
 
-        return answer;
+            }
+
+        }
+        return 0;
     }
 }
