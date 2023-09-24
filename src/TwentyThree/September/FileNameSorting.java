@@ -1,9 +1,9 @@
 package TwentyThree.September;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FileNameSorting {
     /*
@@ -58,63 +58,24 @@ public class FileNameSorting {
     }
 
     public String[] solution(String[] files) {
-        Arrays.sort(files, (o1, o2) -> {
+        Pattern p = Pattern.compile("([a-z\\s.-]+)([0-9]{1,5})");
 
-            String[] part1 = modPart(o1);
-            String[] part2 = modPart(o2);
+        Arrays.sort(files, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                Matcher m1 = p.matcher(s1.toLowerCase());
+                Matcher m2 = p.matcher(s2.toLowerCase());
+                m1.find();
+                m2.find();
 
-            int headComparing = part1[0].compareTo(part2[0]);
-            int numberComparing = Integer.parseInt(part1[1]) - Integer.parseInt(part2[1]);
-
-            if (headComparing == 0) {
-                if (numberComparing == 0) {
-                    return 0;
+                if(!m1.group(1).equals(m2.group(1))) {
+                    return m1.group(1).compareTo(m2.group(1));
+                } else {
+                    return Integer.parseInt(m1.group(2)) - Integer.parseInt(m2.group(2));
                 }
-                return numberComparing;
             }
-            return headComparing;
         });
 
         return files;
-    }
-
-    private static String[] modPart(String s) {
-        String[] part = new String[3];
-        boolean state = false;
-        int numberStartIdx = -1;
-
-        for (int i = 0; i < s.length(); i++) {
-            if (!state && isNumber(s.charAt(i))) {
-                part[0] = s.substring(0, i).toLowerCase();
-                numberStartIdx = i;
-                state = true;
-                if (i == s.length() - 1) {
-                    part[1] = s.substring(numberStartIdx);
-                }
-            } else if (state && !isNumber(s.charAt(i))) {
-                String number = s.substring(numberStartIdx, i);
-                if (number.length() > 5) {
-                    i = i - (number.length() - 5);
-                }
-                part[1] = s.substring(numberStartIdx, i);
-                part[2] = s.substring(i);
-                break;
-            }
-        }
-        if (part[1] == null) {
-            int i = s.length();
-            String number = s.substring(numberStartIdx, i);
-            if (number.length() > 5) {
-                i = i - (number.length() - 5);
-            }
-            part[1] = s.substring(numberStartIdx, i);
-            part[2] = s.substring(i);
-        }
-
-        return part;
-    }
-
-    private static boolean isNumber(char c) {
-        return c >= '0' && c <= '9';
     }
 }
