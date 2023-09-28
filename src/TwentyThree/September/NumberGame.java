@@ -35,17 +35,15 @@ A와 B의 각 원소는 1 이상 1,000,000,000 이하의 자연수입니다.
 
             int x = -1;
 
-            for(int i=0;i<A.length;i++){
-                loop:
-                for(int j=x+1;j<B.length;j++){
-                    if(A[i]<B[j]){
-                        x = j;
+            for (int i = 0; i < A.length; i++) {
+                for (int k = x + 1; k < B.length; k++) {
+                    if (A[i] < B[k]) {
                         answer++;
-                        break loop;
+                        x = k;
+                        break;
                     }
                 }
             }
-
             return answer;
         }
 
