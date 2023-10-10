@@ -33,12 +33,19 @@ public class BestAlbum {
     public int[] solution(String[] genres, int[] plays) {
         Map<String, Integer> hashMap = new HashMap();
         Map<String, TreeMap<Integer, Integer>> map = new HashMap<>();
+        Map<String, TreeMap<Integer, Integer>> dupMap = new HashMap<>();
         TreeMap<Integer, String> treeMap = new TreeMap<>(Collections.reverseOrder());
         for (int i = 0; i < genres.length; i++) {
             TreeMap<Integer, Integer> treeM = map.getOrDefault(genres[i], new TreeMap<>(Collections.reverseOrder()));
+            TreeMap<Integer, Integer> dupTreeM = dupMap.getOrDefault(genres[i], new TreeMap<>(Collections.reverseOrder()));
+            hashMap.put(genres[i], hashMap.getOrDefault(genres[i], 0) + plays[i]);
+            if (treeM.containsKey(plays[i])) {
+                dupTreeM.put(plays[i], i);
+                dupMap.put(genres[i], dupTreeM);
+                continue;
+            }
             treeM.put(plays[i], i);
             map.put(genres[i], treeM);
-            hashMap.put(genres[i], hashMap.getOrDefault(genres[i], 0) + plays[i]);
         }
 
         List<Integer> list = new ArrayList<>();
@@ -48,10 +55,17 @@ public class BestAlbum {
 
         for (Map.Entry<Integer, String> entry : treeMap.entrySet()) {
             TreeMap<Integer, Integer> treeM = map.get(entry.getValue());
-
-            for (int k = 0; k < Math.min(treeM.size() + 1, 2); k++) {
-                list.add(treeM.get(treeM.firstKey()));
-                treeM.remove(treeM.firstKey());
+            TreeMap<Integer, Integer> dupTreeM = dupMap.get(entry.getValue());
+            Integer bestKey  = treeM.firstKey();
+            for (int k = 0; k < 2; k++) {
+                if (treeM.size() != 0) {
+                    list.add(treeM.get(treeM.firstKey()));
+                    treeM.remove(treeM.firstKey());
+                    if (k == 0 && dupTreeM != null && Objects.equals(bestKey, dupTreeM.firstKey())) {
+                        list.add(dupTreeM.get(bestKey));
+                        break;
+                    }
+                }
             }
         }
 
