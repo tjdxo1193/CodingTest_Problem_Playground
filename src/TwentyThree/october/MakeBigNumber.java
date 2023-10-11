@@ -1,6 +1,5 @@
 package TwentyThree.october;
 
-import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,43 +27,61 @@ number	k	return
     public static void main(String[] args) {
         MakeBigNumber bigNumber = new MakeBigNumber();
         System.out.println(bigNumber.solution("1231234", 3));
+        // 3
     }
-
+    // 10(시간 초과)
     public String solution(String number, int k) {
         List<Integer> numbers = Arrays.stream(number.split("")).map(Integer::parseInt).collect(Collectors.toList());
         List<Integer> removeIdxs = new ArrayList<>();
         int numberToRemoveCnt = k;
-        int targetIdx = 0;
-        int currentNum = 0;
         int startIdx = 0;
-        for (int i = 0; i < numbers.size()-k; i++) {
-            for (int j = startIdx; j <= startIdx + numberToRemoveCnt; j++) {
+        for (int i = 0; i < numbers.size()-numberToRemoveCnt; i++) {
+            int targetIdx = 0;
+            int currentNum = 0;
+            // 순서대로 선택된것은 하나씩
+            for (int j = i; j <= Math.min(i + numberToRemoveCnt, numbers.size()); j++) {
                 if (numbers.get(j) > currentNum) {
                     currentNum = numbers.get(j);
                     targetIdx = j;
                 }
             }
-
-            if (targetIdx < startIdx) {
-                targetIdx = startIdx;
-            }
-
-            currentNum = 0;
-            for (int l = startIdx; l < targetIdx; l++) {
-                removeIdxs.add(numbers.get(l));
+            // i 인덱스 부터 삭제할 수 만큼 탐색하면서 가장 큰 인덱스까지 다 삭제하기
+            for (int l = i; l < targetIdx; targetIdx--) {
+                numbers.remove(l);
                 numberToRemoveCnt--;
             }
 
             if (numberToRemoveCnt == 0) {
                 break;
             }
-            startIdx = targetIdx+1;
         }
-        numbers.removeAll(removeIdxs);
 
-        for (int i = numbers.size(); i > numbers.size() - numberToRemoveCnt; i--) {
-            numbers.remove(i);
+        for (int i = 0; i < numberToRemoveCnt; numberToRemoveCnt--) {
+            numbers.remove(numbers.size()-1);
         }
-        return numbers.toString();
+
+
+        StringBuilder sb = new StringBuilder();
+        for (Integer item : numbers) {
+            sb.append(item);
+        }
+        return sb.toString();
+    }
+    // 간단한 풀이 제거 없이 max값을 넣기만함
+    public String solution2(String number, int k) {
+        StringBuilder sb = new StringBuilder();
+        int index = 0;
+        int max = 0;
+        for(int i=0; i<number.length() - k; i++) {
+            max = 0;
+            for(int j = index; j<= k+i; j++) {
+                if(max < number.charAt(j)-'0') {
+                    max = number.charAt(j)-'0';
+                    index = j+1;
+                }
+            }
+            sb.append(max);
+        }
+        return sb.toString();
     }
 }
