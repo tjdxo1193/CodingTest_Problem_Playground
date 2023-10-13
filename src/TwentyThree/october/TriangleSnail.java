@@ -1,5 +1,7 @@
 package TwentyThree.october;
 
+import java.util.Arrays;
+
 public class TriangleSnail {
 
     /*
@@ -37,13 +39,47 @@ DP 문제 같은딩..
      */
 
     public static void main(String[] args) {
-
+        TriangleSnail triangleSnail = new TriangleSnail();
+        System.out.println(Arrays.toString(triangleSnail.solution(6)));
+        //1,2,15,3,16,14,4,17,21,13,5,18,19,20,12,6,7,8,9,10,11
     }
 
     public int[] solution(int n) {
-        int[] answer = {};
+        int[] answer = new int[n*(n+1)/2];
 
+        // nxn의 도화지
+        int[][] triangleArr = new int[n][n];
+        int drawNum = 0;
+        int ordNum = 1;
+        while (drawNum < n){
+            if (drawNum % 3 == 0) {
+                for (int k = 0; k < n - (drawNum/3) * 3; k++){
+                    triangleArr[(drawNum/3) * 2 + k][(drawNum / 3)] = ordNum++;
+                }
+                drawNum++;
+                continue;
+            }
+            if (drawNum % 3 == 1) {
+                for (int l = 1; l < n - (drawNum/3) * 3; l++){
+                    triangleArr[(n-1) - (drawNum/3)][l + (drawNum/3)] = ordNum++;
+                }
+                drawNum++;
+                continue;
+            }
+            if (drawNum % 3 == 2) {
+                for (int j = n-2; j > (drawNum/3) * 3; j--){
+                    triangleArr[j - (drawNum/3)][j - (drawNum/3) * 2] = ordNum++;
+                }
+                drawNum++;
+            }
+        }
 
+        int idx = 0;
+        for (int i = 0; i < n; i++) {
+            for (int k = 0; k < i+1; k++) {
+                answer[idx++] = triangleArr[i][k];
+            }
+        }
 
         return answer;
     }
