@@ -49,43 +49,23 @@ sticker의 각 원소는 스티커의 각 칸에 적힌 숫자이며,
     }
 
     public int solution(int sticker[]) {
-        int answer = 0;
-        // 접해 있는지
-        // n이 짝수일때
-        //n/2 개를 선택하는 경우의수
-        //2가지
-        //n/2 -1개를 선택하는 경우의 수 => n개
-        //
-        //n이 홀 수 일때
-        // n/2 개를 선택 하는 경우의 수 =>  n개
+        if(sticker.length == 1) return sticker[0];
+        else if(sticker.length == 2) return Math.max(sticker[0], sticker[1]);
+        else {
+            int[] firstAdd = new int[sticker.length];
+            int[] LastAdd = new int[sticker.length];
 
-        // 짝수
-        if (sticker.length % 2 == 0) {
-            int 인덱스_짝수 = 0;
-            int 인덱스_홀수 = 0;
-            for (int i = 0; i < sticker.length; i++) {
-                if (i % 2 == 0) {
-                    인덱스_짝수 += sticker[i];
-                }else{
-                    인덱스_홀수 += sticker[i];
-                }
-            }
-            answer = Math.max(인덱스_홀수, 인덱스_짝수);
+            firstAdd[0] = sticker[0];
+            firstAdd[1] = sticker[0]; //1번까지 0+1
+            LastAdd[1] = sticker[1];
 
-            for (int i = 0; i < sticker.length; i++) {
-                int 합 = 0;
-
+            for(int i = 2; i < sticker.length; i++) {
+                firstAdd[i] = Math.max(firstAdd[i-2]+sticker[i], firstAdd[i-1]);
+                LastAdd[i] = Math.max(LastAdd[i-2]+sticker[i], LastAdd[i-1]);
             }
 
-        }else{
-            for (int i = 0; i < sticker.length; i++) {
-                int 합 = 0;
-            }
+            return Math.max(firstAdd[sticker.length-2], LastAdd[sticker.length-1]);
+
         }
-
-
-
-
-        return answer;
     }
 }
