@@ -1,5 +1,8 @@
 package TwentyThree.october;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CollectStickers {
 
     /*
@@ -42,15 +45,44 @@ sticker의 각 원소는 스티커의 각 칸에 적힌 숫자이며,
 3, 5가 적힌 스티커를 떼어 냈을 때 8로 최대가 됩니다.
      */
     public static void main(String[] args) {
-
+        System.out.println(0%2);
     }
 
     public int solution(int sticker[]) {
         int answer = 0;
+        // 접해 있는지
+        // n이 짝수일때
+        //n/2 개를 선택하는 경우의수
+        //2가지
+        //n/2 -1개를 선택하는 경우의 수 => n개
+        //
+        //n이 홀 수 일때
+        // n/2 개를 선택 하는 경우의 수 =>  n개
 
-        for (int i = 0; i < sticker.length; i++) {
+        // 짝수
+        if (sticker.length % 2 == 0) {
+            int 인덱스_짝수 = 0;
+            int 인덱스_홀수 = 0;
+            for (int i = 0; i < sticker.length; i++) {
+                if (i % 2 == 0) {
+                    인덱스_짝수 += sticker[i];
+                }else{
+                    인덱스_홀수 += sticker[i];
+                }
+            }
+            answer = Math.max(인덱스_홀수, 인덱스_짝수);
 
+            for (int i = 0; i < sticker.length; i++) {
+                int 합 = 0;
+
+            }
+
+        }else{
+            for (int i = 0; i < sticker.length; i++) {
+                int 합 = 0;
+            }
         }
+
 
 
 
