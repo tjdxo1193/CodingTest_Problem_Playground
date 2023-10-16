@@ -1,5 +1,7 @@
 package TwentyThree.october;
 
+import java.util.Arrays;
+
 public class RotatingMatrixBorders {
 /*
 문제 설명
@@ -54,11 +56,74 @@ x1 행 y1 열부터 x2 행 y2 열까지 영역의
 
 
     public static void main(String[] args) {
-
+        RotatingMatrixBorders borders = new RotatingMatrixBorders();
+        System.out.println(Arrays.toString(borders.solution(6, 6, new int[][]{{2, 2, 5, 3}})));
     }
 
     public int[] solution(int rows, int columns, int[][] queries) {
-        int[] answer = {};
+        int[] answer = new int[queries.length];
+        int[][] matrixBorder = new int[rows][columns];
+        // 1. 우선 rows x columns 행렬을 만든다.
+        int count = 1;
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < columns; col++, count++) {
+                matrixBorder[row][col] = count;
+            }
+        }
+        // queries[i][0], queries[i][1]
+        // queries[i][2], queries[i][3]
+        // matrix[queries[i][0] - 1][]
+
+        // 2. 행렬 돌리기 + 돌릴때마다 최소값 answer에 넣기
+        for (int i = 0; i < queries.length; i++) {
+            int upLeftRowIndex = queries[i][0] - 1;
+            int upLeftColIndex = queries[i][1] - 1;
+
+            int upRightRowIndex = queries[i][0] - 1;
+            int upRightColIndex = queries[i][3] - 1;
+
+            int downLeftRowIndex = queries[i][2] - 1;
+            int downLeftColIndex = queries[i][1] - 1;
+
+            int downRightRowIndex = queries[i][2] - 1;
+            int downRightColIndex = queries[i][3] - 1;
+            int[] corner = new int[4]; // 0 : upLeft, 1 : upRight, 2 : downRight, 3 : downLeft
+            corner[0] = matrixBorder[upLeftRowIndex][upLeftColIndex];
+            corner[1] = matrixBorder[upRightRowIndex][upRightColIndex];
+            corner[2] = matrixBorder[downRightRowIndex][downRightColIndex];
+            corner[3] = matrixBorder[downLeftRowIndex][downLeftColIndex];
+            int minNum = Math.min(corner[1], Math.min(corner[2], corner[3]));
+
+            // up >
+            for (int j = upRightColIndex; j > upLeftColIndex; j--) {
+                matrixBorder[upLeftRowIndex][j] = matrixBorder[upLeftRowIndex][j - 1];
+                minNum = Math.min(minNum, matrixBorder[upLeftRowIndex][j]);
+            }
+
+            // right v
+            for (int k = downRightRowIndex; k > upRightRowIndex; k--) {
+                matrixBorder[k][downRightColIndex] = matrixBorder[k - 1][downRightColIndex];
+                minNum = Math.min(minNum, matrixBorder[k][downRightColIndex]);
+            }
+            matrixBorder[upRightRowIndex + 1][upRightColIndex] = corner[1];
+
+            // down <
+            for (int l = downLeftColIndex; l < downRightColIndex; l++) {
+                matrixBorder[downLeftRowIndex][l] = matrixBorder[downLeftRowIndex][l + 1];
+                minNum = Math.min(minNum, matrixBorder[downLeftRowIndex][l]);
+            }
+            matrixBorder[downRightRowIndex][downRightColIndex - 1] = corner[2];
+
+            // left ^
+            for (int z = upLeftRowIndex; z < downLeftRowIndex; z++) {
+                matrixBorder[z][upLeftColIndex] = matrixBorder[z + 1][upLeftColIndex];
+                minNum = Math.min(minNum, matrixBorder[z][upLeftColIndex]);
+            }
+
+            matrixBorder[downLeftRowIndex - 1][downLeftColIndex] = corner[3];
+            answer[i] = minNum;
+        }
+        System.out.println(Arrays.deepToString(matrixBorder));
         return answer;
     }
 }
