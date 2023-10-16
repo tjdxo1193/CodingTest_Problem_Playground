@@ -34,7 +34,7 @@ public class MagicElevator {
 
     public static void main(String[] args) {
         MagicElevator elevator = new MagicElevator();
-        System.out.println(elevator.solution(2554));
+        System.out.println(elevator.solution2(555));
     }
 
     public int solution(int storey) {
@@ -73,4 +73,60 @@ public class MagicElevator {
 
         return answer;
     }
+    public int solution2(int storey) {
+        int answer = 0;
+
+        String data = String.valueOf(storey);
+        boolean isUpper = false;
+        int prev = 0;
+        for (int i=data.length()-1; i>=0; i--) {
+            int tempValue = storey % 10;
+            storey /= 10;
+
+            if (tempValue == 5) {
+                if (prev == 5) {
+                    answer += 4;
+                    isUpper = true;
+                    prev = 6;
+                } else if (isUpper) {
+                    answer += 4;
+                    if (i == 0) {
+                        answer++;
+                    }
+                    prev = 6;
+                } else {
+                    answer += 5;
+                    prev = 5;
+                }
+            } else if (tempValue < 5) {
+                if (isUpper) {
+                    answer += (tempValue + 1);
+                    prev = (tempValue + 1);
+                } else {
+                    answer += tempValue;
+                    prev = tempValue;
+                }
+                isUpper = false;
+            } else if (tempValue > 5) {
+                if (prev == 5) {
+                    answer += (9 - tempValue);
+                    prev = (tempValue + 1);
+                } else if (isUpper) {
+                    answer += (9 - tempValue);
+                    prev = (tempValue + 1);
+                } else {
+                    answer += (10 - tempValue);
+                    prev = tempValue + 1;
+                }
+                if (i == 0) {
+                    answer++;
+                }
+                isUpper = true;
+            }
+        }
+
+        return answer;
+    }
+
+
 }
