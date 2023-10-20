@@ -1,5 +1,9 @@
 package TwentyThree.october;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class FurthestNode {
 
     /*
@@ -28,7 +32,8 @@ n	vertex	return
 
      */
 
-
+    static ArrayList<ArrayList<Integer>> graph; //integer를 저장할 수 있는 ArrayList를 저장하는 ArrayList
+    static int[] ch, dis; //방문 기록, 레벨 기록
 
     public static void main(String[] args) {
 
@@ -36,6 +41,39 @@ n	vertex	return
 
     public int solution(int n, int[][] edge) {
         int answer = 0;
+
+        // BFS를 사용하여 각 노드로 부터 최단 거리 구하고, 정렬하여 가장 먼 노드를 구한다.
+
+        // BFS 를 이용해서 비가중치 그래프의 최단 거리를 구할때
+        // 순환되는 노드를 처리해줘야함.
+
+
         return answer;
+    }
+
+    public static void bfs(int v) {
+        Queue<Integer> Q = new LinkedList<>();
+        Q.offer(v); //0레벨 루트
+        int L = 0; //레벨
+
+        while(!Q.isEmpty()) {
+            int len = Q.size();
+
+            //큐 순회
+            for(int i=0; i<len; i++) {
+                int cv = Q.poll(); //꺼냄
+
+                //x 정점이 갈 수 있는 정점 순회
+                for(int nv : graph.get(cv)) {
+                    if(ch[nv] == 0) { //방문한 적이 없으면
+                        ch[nv] = 1; //방문 기록
+                        dis[nv] = L+1; //레벨 기록
+                        Q.offer(nv); //큐에 추가
+                    }
+                }
+
+            }
+            L++; //큐 순회가 끝나면 레벨 증가
+        }
     }
 }
