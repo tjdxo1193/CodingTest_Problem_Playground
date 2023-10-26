@@ -1,5 +1,10 @@
 package TwentyThree.october;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.stream.Collectors;
+
 public class MakeTwoQueueSumSame {
 
     /*
@@ -31,20 +36,39 @@ queue1에서 3을 추출하여 queue2에 추가합니다. 그리고 queue2에서
 
     }
 
-    public int solution(int n) {
+    public int solution(int[] queue1, int[] queue2) {
+        int answer = -2;
+        int count = 0;
+        Queue<Double> q1 = new LinkedList<>(
+                Arrays.stream(queue1).mapToDouble(i -> (long)i).boxed().collect(Collectors.toList()));
+        Queue<Double> q2 = new LinkedList<>(
+                Arrays.stream(queue2).mapToDouble(i -> (long)i).boxed().collect(Collectors.toList()));
+        double sum1 = q1.stream().reduce(0d, (a, b) -> a + b).longValue();
+        double sum2 = q2.stream().reduce(0d, (a, b) -> a + b).longValue();
 
-        int answer = 0;
-
-        for (int i = 2; i < n; i++) {
-
-            if(n%i == 1) {
-                answer = i;
-                break;
+        int end = (q1.size() + q2.size()) * 2;
+        while (sum1 != sum2) {
+            count++;
+            Double poll;
+            if (sum1 > sum2) {
+                poll = q1.poll();
+                sum1 -= poll;
+                sum2 += poll;
+                q2.offer(poll);
+            } else {
+                poll = q2.poll();
+                sum1 += poll;
+                sum2 -= poll;
+                q1.offer(poll);
             }
 
+            if (count > end) {
+                return -1;
+            }
         }
 
-        return answer;
+
+        return count;
     }
 
 }
