@@ -48,6 +48,9 @@ K는 음식 배달이 가능한 시간을 나타내며, 1 이상 500,000 이하�
     public static void main(String[] args) {
 
     }
-
+    public int solution(int N, int[][] road, int K) {
+        int answer = 0;
+        return answer;
+    }
 
 }
