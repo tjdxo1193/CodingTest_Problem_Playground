@@ -27,38 +27,41 @@ package TwentyThree.november;
 //System.out.println(AB);		       				     // long 변수 1개 출력하는 예제
 /////////////////////////////////////////////////////////////////////////////////////////////
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class 최대상금_SWExpertAcademy {
+
+    static int chance;
+    static int answer;
+    static String[] target;
         public static void main(String args[]) throws Exception
         {
+
             Scanner sc = new Scanner(System.in);
+            int T = sc.nextInt();
+            sc.nextLine();
 		/*
 		   여러 개의 테스트 케이스가 주어지므로, 각각을 처리합니다.
 		*/
-            for(int test_case = 1; test_case <= 10; test_case++)
+            for(int test_case = 1; test_case <= T; test_case++)
             {
-                int bulidCnt = sc.nextInt();
-                int result = 0;
-                int[] bulidHeights = new int[bulidCnt];
-                for (int i = 0; i < bulidCnt; i++) {
-                    bulidHeights[i] = sc.nextInt();
-                }
+                String input = sc.nextLine();
+                String[] inputArray = input.split(" ");
 
-                for (int i = 2; i < bulidHeights.length - 2; i++) {
-                    int area[] = new int[4];
-                    area[0] = bulidHeights[i-2];
-                    area[1] = bulidHeights[i-1];
-                    area[2] = bulidHeights[i+1];
-                    area[3] = bulidHeights[i+2];
-                    if(area[0] >= bulidHeights[i] || area[1] >= bulidHeights[i] || area[2] >= bulidHeights[i] || area[3] >= bulidHeights[i]){
-                        continue;
-                    }else{
-                        Arrays.sort(area);
-                        result += bulidHeights[i] - area[3];
-                    }
-                }
-                System.out.println(result);
+                target = inputArray[0].split("");
+                chance = Integer.valueOf(inputArray[1]);
+                answer = 0;
+                answer = dfs(0, 0);
+
+                System.out.println("#" + test_case + " " + answer);
             }
         }
+
+    private static int dfs(int k, int count) {
+        String temp;
+        String targetNum = "";
+
+        return answer;
+    }
 }
