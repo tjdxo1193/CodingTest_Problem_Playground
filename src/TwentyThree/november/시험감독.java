@@ -32,22 +32,34 @@ public class 시험감독 {
     static int N;
     static int[] A;
     static int B, C;
+    static long answer;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
+        StringTokenizer st2;
         N = Integer.parseInt(br.readLine());
         A = new int[N];
         st = new StringTokenizer(br.readLine());
+        st2 = new StringTokenizer(br.readLine());
+        B = Integer.parseInt(st2.nextToken());
+        C = Integer.parseInt(st2.nextToken());
 
         for (int i = 0; i < N; i++) {
-            A[i] = Integer.parseInt(st.nextToken());
+            A[i] = Integer.parseInt(st.nextToken()) - B;
         }
 
-        st = new StringTokenizer(br.readLine());
-        B = Integer.parseInt(st.nextToken());
-        C = Integer.parseInt(st.nextToken());
-
+        answer = N;
         System.out.println(count());
+    }
+
+    private static long count() {
+        for (int i = 0; i < N; i++) {
+            if (A[i] <= 0) {
+                continue;
+            }
+            answer += Math.ceil((float) A[i] / C);
+        }
+        return answer;
     }
 
 
