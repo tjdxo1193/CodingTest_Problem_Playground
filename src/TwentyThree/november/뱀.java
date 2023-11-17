@@ -20,8 +20,8 @@ public class 뱀 {
     public static void main(String[] args) throws IOException, NumberFormatException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
-        int N = Integer.parseInt(br.readLine());
-        int K = Integer.parseInt(br.readLine());
+        N = Integer.parseInt(br.readLine());
+        K = Integer.parseInt(br.readLine());
         map = new int[N][N];
         for (int i = 0; i < K; i++) {
             st = new StringTokenizer(br.readLine());
