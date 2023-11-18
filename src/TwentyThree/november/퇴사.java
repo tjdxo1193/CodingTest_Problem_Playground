@@ -57,7 +57,7 @@ public class 퇴사 {
         int[] dp = new int[N+1];
         for (int i = 0; i < N; i++) {
             if (i + T[i] <= N) {
-                dp[i] = Math.max(dp[i + T[i]], dp[i] + P[i]);
+                dp[i + T[i]] = Math.max(dp[i + T[i]], dp[i] + P[i]);
             }
 
             dp[i + 1] = Math.max(dp[i], dp[i + 1]);
